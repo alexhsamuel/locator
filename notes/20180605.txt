@@ -1,0 +1,31 @@
+Kick Off 20180605
+
+The goal is provide information re whereabouts of the employee at any given time point.
+
+Use cases:
+- need to put the information where it can be easily retrieved by other participants
+- No enterprise permissions
+- Search by person
+- Search by date
+- Hard coded locations first + comments about vacation
+- Same for set of users predefined
+- Proper auth for future, but session would be user aware for now
+- User should be able to announce his location for future 
+- Possibly overlap for several users on the same view
+- Same backed for both implementations (react vs view)
+
+
+Design questions:
+Show me where is everyone today or tomorrow
+
+
+
+General notes:
+- Linux
+- Public github
+- Backend should be kept really lightweight (ngrok)
+
+For next week:
+Alex: json schemas/APIs
+Eli: data schema and back end
+Kelvin: UI and front end
