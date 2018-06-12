@@ -1,7 +1,7 @@
 ## locator design
 
 ### main app
-![main](main.png "main")
+![main](imgs/main.png "main")
 [source](https://wireframe.cc/jzqjI9)
 
 * Combo box for following fields:
@@ -22,4 +22,4 @@
   *  possibly an x element to delete?
   
 ### login page
-![main](login.png "login")
+![main](imgs/login.png "login")
