@@ -1,8 +1,8 @@
-##locator design
+## locator design
 
-###main app
+### main app
 ![main](main.png "main")
 
-###login page
+### login page
 
-###forgot password (should we add this?)
+### forgot password (should we add this?)
