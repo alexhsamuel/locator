@@ -128,6 +128,10 @@ URL query parameters may be specified to narrow the search:
 - `end=YYYY-MM-DD`: end date
 - `user=user_id`: user filter
 - `group=group_id`: group filter
-- `status=status`: status filter; may appear multiple times for multiple statuses
+- `status=status`: status filter
 - `notes=text`: fuzzy text match to notes
+
+Query parameters other than `start` and `end` may appear more than once, in
+which case the filter for _that field_ is the union of matches.  The filtering
+for multiple fields is the intersectin of matches, however.
 
