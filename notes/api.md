@@ -10,10 +10,11 @@ API](https://developer.github.com/v3/) does it.
 
 # Types
 
-- `user_id`: nonempty string (FIXME: characters?)
-- `event_id`: nonempty string
+- `user_id`: nonempty string (FIXME: characters?), must match user account
+- `group_id`: nonempty string (FIXME: characters?), must match group
+- `event_id`: nonempty string, chosen by service
 - `date`: "YYYY-MM-DD" format
-- `status`: string chosen from configured set of valid strings
+- `status`: string chosen from set of valid strings configured in service
 - `notes`: arbitrary string or null
 
 
@@ -116,6 +117,7 @@ request = {
 }
 
 response = {
+  "status": 200,
   "events": [events]
 }
 ```
