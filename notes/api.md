@@ -121,9 +121,6 @@ response = {
 ```
 GET /api/v1/events
 
-request = {
-}
-
 response = {
   "status": 200,
   "events": [events]
@@ -145,4 +142,37 @@ are returned; these may start earlier or end later than the search date range.
 Query parameters other than `start` and `end` may appear more than once, in
 which case the filter for _that field_ is the union of matches.  The filtering
 for multiple fields is the intersectin of matches, however.
+
+
+# Config
+
+```
+GET /api/v1/statuses
+
+response = {
+  "status": 200,
+  "statuses": [ "remote", ... ]
+}
+```
+
+```
+GET /api/v1/users
+
+response = {
+  "status": 200,
+  "users": [ "user1", ... ]
+}
+```
+
+```
+GET /api/v1/groups
+
+response = {
+  "status": 200,
+  "groups": {
+     "group1": [ "user1", ... ],
+     "group2": [ "user2", ... ],
+  }
+}
+```
 
