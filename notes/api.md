@@ -13,9 +13,17 @@ API](https://developer.github.com/v3/) does it.
 - `user_id`: nonempty string (FIXME: characters?), must match user account
 - `group_id`: nonempty string (FIXME: characters?), must match group
 - `event_id`: nonempty string, chosen by service
-- `date`: "YYYY-MM-DD" format
 - `status`: string chosen from set of valid strings configured in service
 - `notes`: arbitrary string or null
+
+```
+date_range = {
+    "start": "YYYY-MM-DD",
+    "end": "YYYY-MM-DD"
+}
+```
+The date range is inclusive of both dates, and the end date may not precede the
+start date.
 
 
 # Errors
@@ -42,7 +50,7 @@ event = {
   "event_id": event_id,
   "event_url": event_url,
   "user_id": user_id,
-  "date": date,
+  "dates": date_range,
   "status": status,
   "notes: notes
 }
@@ -55,7 +63,7 @@ POST /api/v1/events
 
 request = {
   "user_id": user_id,
-  "date": date,
+  "dates": date_range,
   "status": status,
   "notes: notes
 }
@@ -130,6 +138,9 @@ URL query parameters may be specified to narrow the search:
 - `group=group_id`: group filter
 - `status=status`: status filter
 - `notes=text`: fuzzy text match to notes
+
+All events whose date ranges overlap the given start and end range at all
+are returned; these may start earlier or end later than the search date range.
 
 Query parameters other than `start` and `end` may appear more than once, in
 which case the filter for _that field_ is the union of matches.  The filtering
