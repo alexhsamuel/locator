@@ -14,9 +14,12 @@ DEFAULT_PORT = 11619
 
 #-------------------------------------------------------------------------------
 
-def initialize_db(db_path):
+def initialize_db(app, db_path):
     """
     Creates or opens the database, and connects it to the Flask app.
+
+    :return:
+      The scoped session object.
     """
     db_path = Path(db_path).absolute()
     logging.info(f"using database: {db_path}")
@@ -32,7 +35,7 @@ def initialize_db(db_path):
     locator.model.Base.query = session.query_property()
     locator.model.Base.metadata.create_all(engine)
 
-    locator.api.SESSION = session
+    return session
 
 
 #-------------------------------------------------------------------------------
@@ -61,6 +64,6 @@ logging.getLogger().setLevel(logging.INFO)
 
 app = flask.Flask("locator")
 app.register_blueprint(locator.api.API, url_prefix="/api/v1")
-initialize_db(args.database)
+locator.api.SESSION = initialize_db(app, args.database)
 app.run(host=args.host, port=args.port, debug=args.debug)
 
