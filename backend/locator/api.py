@@ -47,11 +47,28 @@ def put_events():
     return flask.jsonify({}), 201
 
 
+@API.route("/groups", methods=["GET"])
+def get_groups():
+    groups = flask.current_app.config["groups"]
+    return flask.jsonify({
+        "status": 200,
+        "groups": { g: sorted(u) for g, u in groups.items() },
+    })
+
+
 @API.route("/statuses", methods=["GET"])
 def get_statuses():
     return flask.jsonify({
         "status": 200,
         "statuses": sorted(flask.current_app.config["statuses"]),
+    })
+
+
+@API.route("/users", methods=["GET"])
+def get_users():
+    return flask.jsonify({
+        "status": 200,
+        "users": sorted(flask.current_app.config["users"]),
     })
 
 
