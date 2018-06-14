@@ -51,7 +51,7 @@ def put_events():
 def get_statuses():
     return flask.jsonify({
         "status": 200,
-        "statuses": list(flask.current_app.config["statuses"]),
+        "statuses": sorted(flask.current_app.config["statuses"]),
     })
 
 
