@@ -47,3 +47,11 @@ def put_events():
     return flask.jsonify({}), 201
 
 
+@API.route("/statuses", methods=["GET"])
+def get_statuses():
+    return flask.jsonify({
+        "status": 200,
+        "statuses": list(flask.current_app.config["statuses"]),
+    })
+
+
