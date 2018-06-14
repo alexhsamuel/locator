@@ -5,7 +5,7 @@ from   . import model
 
 #-------------------------------------------------------------------------------
 
-def to_date(string):
+def parse_date(string):
     return datetime.datetime.strptime(string, "%Y-%m-%d").date()
 
 
@@ -34,8 +34,8 @@ def put_events():
     event = model.Event(
         deleted     =False,
         user_id     =jso["user_id"],
-        start_date  =to_date(jso["dates"]["start"]),
-        end_date    =to_date(jso["dates"]["end"]),
+        start_date  =parse_date(jso["dates"]["start"]),
+        end_date    =parse_date(jso["dates"]["end"]),
         status      =jso["status"],
         notes       =jso.get("notes", ""),
     )
