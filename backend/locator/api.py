@@ -52,7 +52,13 @@ def get_groups():
     groups = flask.current_app.config["groups"]
     return flask.jsonify({
         "status": 200,
-        "groups": { g: sorted(u) for g, u in groups.items() },
+        "groups": [
+            {
+                "group_id": i,
+                "user_ids": sorted(g),
+            }
+            for i, g in groups.items() 
+        ],
     })
 
 
@@ -66,9 +72,15 @@ def get_statuses():
 
 @API.route("/users", methods=["GET"])
 def get_users():
+    users = flask.current_app.config["users"]
     return flask.jsonify({
         "status": 200,
-        "users": sorted(flask.current_app.config["users"]),
+        "users": [
+            {
+                "user_id": i,
+            }
+            for i in users
+        ],
     })
 
 

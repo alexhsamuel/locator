@@ -160,7 +160,13 @@ GET /api/v1/users
 
 response = {
   "status": 200,
-  "users": [ "user1", ... ]
+  "users": [
+     "user1": {
+       "user_id": "user1", 
+       ...,
+     },
+     ...
+  ]
 }
 ```
 
@@ -169,10 +175,13 @@ GET /api/v1/groups
 
 response = {
   "status": 200,
-  "groups": {
-     "group1": [ "user1", ... ],
-     "group2": [ "user2", ... ],
-  }
+  "groups": [
+     {
+       "group_id": "group1",
+       "user_ids": [ "user1", ... ],
+     },
+     ...
+  ]
 }
 ```
 
