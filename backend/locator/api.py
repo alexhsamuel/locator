@@ -5,8 +5,19 @@ from   . import model
 
 #-------------------------------------------------------------------------------
 
+class APIError(Exception):
+
+    def __init__(self, message, status_code=400):
+        self.message = message
+        self.status_code = status_code
+
+
+
 def parse_date(string):
-    return datetime.datetime.strptime(string, "%Y-%m-%d").date()
+    try:
+        return datetime.datetime.strptime(string, "%Y-%m-%d").date()
+    except ValueError:
+        raise APIError(f"invalid date: {string}")
 
 
 #-------------------------------------------------------------------------------
@@ -16,6 +27,16 @@ def parse_date(string):
 SESSION = None
 
 API = flask.Blueprint("locator", __name__)
+
+@API.errorhandler(APIError)
+def handle_invalid_usage(exc):
+    response = flask.jsonify({
+        "status": exc.status_code,
+        "message": exc.message,
+    })
+    response.status_code = exc.status_code
+    return response
+
 
 @API.route("/events", methods=["GET"])
 def get_events():
@@ -27,19 +48,29 @@ def get_events():
 @API.route("/events", methods=["POST"])
 def put_events():
     jso = flask.request.json
+    cfg = flask.current_app.config
+    
+    user_id = jso["user_id"]
+    if user_id not in cfg["users"]:
+        raise APIError(f"unknown user: {user_id}")
 
-    # FIXME: Validate user_id.
-    # FIXME: Validate date range.
-    # FIXME: Validate status.
+    start_date = parse_date(jso["dates"]["start"])
+    end_date = parse_date(jso["dates"]["end"])
+    if end_date < start_date:
+        raise APIError(f"end date {end_date} before start date {start_date}")
+    
+    status = jso["status"]
+    if status not in cfg["statuses"]:
+        raise APIError(f"unknown status: {status}")
+
     event = model.Event(
         deleted     =False,
-        user_id     =jso["user_id"],
-        start_date  =parse_date(jso["dates"]["start"]),
-        end_date    =parse_date(jso["dates"]["end"]),
-        status      =jso["status"],
+        user_id     =user_id,
+        start_date  =start_date,
+        end_date    =end_date,
+        status      =status,
         notes       =jso.get("notes", ""),
     )
-
     SESSION.add(event)
     SESSION.commit()
 
