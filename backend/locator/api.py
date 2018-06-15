@@ -20,6 +20,23 @@ def parse_date(string):
         raise APIError(f"invalid date: {string}")
 
 
+def format_date(date):
+    return format(date, "%Y-%m-%d")
+
+
+def event_to_jso(event):
+    return {
+        "event_id"  : str(event.event_id),
+        "user_id"   : event.user_id,
+        "dates"     : {
+            "start" : format_date(event.start_date),
+            "end"   : format_date(event.end_date),
+        },
+        "status"    : event.status,
+        "notes"     : event.notes,
+    }
+
+
 #-------------------------------------------------------------------------------
 
 # This will be set by initialize_db().
@@ -40,8 +57,10 @@ def handle_invalid_usage(exc):
 
 @API.route("/events", methods=["GET"])
 def get_events():
+    events = SESSION.query(model.Event).all()
     return flask.jsonify({
-        "event_id": None,
+        "status": 200,
+        "events": [ event_to_jso(e) for e in events ],
     })
 
 
@@ -75,7 +94,10 @@ def put_events():
     SESSION.commit()
 
     # FIXME: Return a proper response.
-    return flask.jsonify({}), 201
+    return flask.jsonify({
+        "status": 201,
+        "event": event_to_jso(event),
+    }), 201
 
 
 @API.route("/groups", methods=["GET"])
