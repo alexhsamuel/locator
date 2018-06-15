@@ -1,7 +1,8 @@
 import datetime
 import flask
+import sqlalchemy as sa
 
-from   . import model
+from   .model import Event
 
 #-------------------------------------------------------------------------------
 
@@ -57,7 +58,41 @@ def handle_invalid_usage(exc):
 
 @API.route("/events", methods=["GET"])
 def get_events():
-    query = SESSION.query(model.Event).filter_by(deleted=False)
+    cfg = flask.current_app.config
+    
+    # Start with all undeleted events.
+    query = SESSION.query(Event).filter_by(deleted=False)
+    args = flask.request.args
+
+    # Apply filters based on query parameters.
+    start_date = args.get("start", type=parse_date)
+    if start_date is not None:
+        query = query.filter(Event.end_date >= start_date)
+
+    end_date = args.get("end", type=parse_date)
+    if end_date is not None:
+        query = query.filter(Event.start_date <= end_date)
+
+    user_ids = args.getlist("user")
+    if len(user_ids) > 0:
+        query = query.filter(Event.user_id.in_(user_ids))
+
+    group_ids = args.getlist("group")
+    if len(group_ids) > 0:
+        # Collect all user IDs in the given groups.
+        user_ids = { u for g in group_ids for u in cfg["groups"][g] }
+        query = query.filter(Event.user_id.in_(user_ids))
+
+    statuses = args.getlist("status")
+    if len(statuses) > 0:
+        query = query.filter(Event.status.in_(statuses))
+
+    notes = args.getlist("notes")
+    if len(notes) > 0:
+        query = query.filter(
+            sa.or_( Event.notes.like("%" + n + "%") for n in notes ))
+
+    # Fetch and return events.
     return flask.jsonify({
         "status": 200,
         "events": [ event_to_jso(e) for e in query.all() ],
@@ -82,7 +117,7 @@ def put_events():
     if status not in cfg["statuses"]:
         raise APIError(f"unknown status: {status}")
 
-    event = model.Event(
+    event = Event(
         deleted     =False,
         user_id     =user_id,
         start_date  =start_date,
