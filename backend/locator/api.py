@@ -57,10 +57,10 @@ def handle_invalid_usage(exc):
 
 @API.route("/events", methods=["GET"])
 def get_events():
-    events = SESSION.query(model.Event).all()
+    query = SESSION.query(model.Event).filter_by(deleted=False)
     return flask.jsonify({
         "status": 200,
-        "events": [ event_to_jso(e) for e in events ],
+        "events": [ event_to_jso(e) for e in query.all() ],
     })
 
 
