@@ -4,6 +4,10 @@ import sqlalchemy as sa
 
 from   .model import Event
 
+# FIXME: We keep deleted events (deleted=true) but don't keep revisions of
+# patched events.  To do this, we'd have to manage event IDs ourselves rather
+# than relying on an autoincrement key.
+
 #-------------------------------------------------------------------------------
 
 class APIError(Exception):
@@ -55,6 +59,9 @@ def handle_invalid_usage(exc):
     response.status_code = exc.status_code
     return response
 
+
+#-------------------------------------------------------------------------------
+# Events
 
 @API.route("/events", methods=["GET"])
 def get_events():
@@ -108,10 +115,10 @@ def put_events():
     if user_id not in cfg["users"]:
         raise APIError(f"unknown user: {user_id}")
 
-    start_date = parse_date(jso["dates"]["start"])
-    end_date = parse_date(jso["dates"]["end"])
-    if end_date < start_date:
-        raise APIError(f"end date {end_date} before start date {start_date}")
+    sdate = parse_date(jso["dates"]["start"])
+    edate = parse_date(jso["dates"]["end"])
+    if edate < sdate:
+        raise APIError(f"end date {edate} before start date {sdate}")
     
     status = jso["status"]
     if status not in cfg["statuses"]:
@@ -120,8 +127,8 @@ def put_events():
     event = Event(
         deleted     =False,
         user_id     =user_id,
-        start_date  =start_date,
-        end_date    =end_date,
+        start_date  =sdate,
+        end_date    =edate,
         status      =status,
         notes       =jso.get("notes", ""),
     )
@@ -134,6 +141,61 @@ def put_events():
         "event": event_to_jso(event),
     }), 201
 
+
+@API.route("/events/<event_id>", methods=["PATCH"])
+def patch_events(event_id):
+    jso = flask.request.json
+    cfg = flask.current_app.config
+
+    # Look up the event.
+    try:
+        event = SESSION.query(Event).filter_by(event_id=int(event_id)).one()
+    except sa.orm.exc.NoResultFound:
+        raise APIError(f"no event_id: f{event_id}", 404)
+
+    # Apply patches.
+
+    if "user_id" in jso:
+        user_id = jso["user_id"]
+        if user_id in cfg["users"]:
+            event.user_id = user_id
+        else:
+            raise APIError(f"unknown user: {user_id}")
+
+    if "dates" in jso:
+        sdate = parse_date(jso["dates"]["start"])
+        edate = parse_date(jso["dates"]["end"])
+        if edate >= sdate:
+            event.start_date = sdate
+            event.end_date = edate
+        else:
+            raise APIError(f"end date {edate} before start date {sdate}")
+
+    if "status" in jso:
+        status = jso["status"]
+        if status in cfg["statuses"]:
+            event.status = status
+        else:
+            raise APIError(f"unknown status: {status}")
+
+    if "notes" in jso:
+        notes = jso["notes"]
+        if notes is None or isinstance(notes, str):
+            event.notes = notes
+        else:
+            raise APIError(f"invalid notes: {notes}")
+
+    SESSION.commit()
+
+    # FIXME: Return a proper response.
+    return flask.jsonify({
+        "status": 200,
+        "event": event_to_jso(event),
+    })
+
+
+#-------------------------------------------------------------------------------
+# Config
 
 @API.route("/groups", methods=["GET"])
 def get_groups():
