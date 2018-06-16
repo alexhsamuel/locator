@@ -29,6 +29,15 @@ def format_date(date):
     return format(date, "%Y-%m-%d")
 
 
+def validate_dates(dates):
+    sdate = parse_date(dates["start"])
+    edate = parse_date(dates["end"])
+    if edate >= sdate:
+        return sdate, edate
+    else:
+        raise APIError(f"end date {edate} before start date {sdate}")
+
+
 def event_to_jso(event):
     return {
         "event_id"  : str(event.event_id),
@@ -40,6 +49,17 @@ def event_to_jso(event):
         "status"    : event.status,
         "notes"     : event.notes,
     }
+
+
+def look_up_event(event_id):
+    query = SESSION.query(Event).filter_by(
+        deleted=False, 
+        event_id=int(event_id)
+    )
+    try:
+        return query.one()
+    except sa.orm.exc.NoResultFound:
+        raise APIError(f"no event_id: f{event_id}", 404)
 
 
 #-------------------------------------------------------------------------------
@@ -106,6 +126,15 @@ def get_events():
     })
 
 
+@API.route("/events/<event_id>", methods=["GET"])
+def get_event(event_id):
+    event = look_up_event(event_id)
+    return flask.jsonify({
+        "status": 200,
+        "event": event_to_jso(event),
+    })
+
+
 @API.route("/events", methods=["POST"])
 def put_events():
     jso = flask.request.json
@@ -115,10 +144,7 @@ def put_events():
     if user_id not in cfg["users"]:
         raise APIError(f"unknown user: {user_id}")
 
-    sdate = parse_date(jso["dates"]["start"])
-    edate = parse_date(jso["dates"]["end"])
-    if edate < sdate:
-        raise APIError(f"end date {edate} before start date {sdate}")
+    sdate, edate = validate_dates(jso["dates"])
     
     status = jso["status"]
     if status not in cfg["statuses"]:
@@ -144,16 +170,9 @@ def put_events():
 
 @API.route("/events/<event_id>", methods=["PATCH"])
 def patch_events(event_id):
-    jso = flask.request.json
-    cfg = flask.current_app.config
-
-    # Look up the event.
-    try:
-        event = SESSION.query(Event).filter_by(event_id=int(event_id)).one()
-    except sa.orm.exc.NoResultFound:
-        raise APIError(f"no event_id: f{event_id}", 404)
-
-    # Apply patches.
+    jso     = flask.request.json
+    cfg     = flask.current_app.config
+    event   = look_up_event(event_id)
 
     if "user_id" in jso:
         user_id = jso["user_id"]
@@ -163,13 +182,7 @@ def patch_events(event_id):
             raise APIError(f"unknown user: {user_id}")
 
     if "dates" in jso:
-        sdate = parse_date(jso["dates"]["start"])
-        edate = parse_date(jso["dates"]["end"])
-        if edate >= sdate:
-            event.start_date = sdate
-            event.end_date = edate
-        else:
-            raise APIError(f"end date {edate} before start date {sdate}")
+        event.start_date, event.end_date = validate_dates(jso["dates"])
 
     if "status" in jso:
         status = jso["status"]
