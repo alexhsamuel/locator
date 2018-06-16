@@ -131,6 +131,7 @@ def get_events():
     args = flask.request.args
 
     # Apply filters based on query parameters.
+
     start_date = args.get("start", type=parse_date)
     if start_date is not None:
         query = query.filter(Event.end_date >= start_date)
@@ -156,7 +157,7 @@ def get_events():
     notes = args.getlist("notes")
     if len(notes) > 0:
         query = query.filter(
-            sa.or_( Event.notes.like("%" + n + "%") for n in notes ))
+            sa.or_( Event.notes.ilike("%" + n + "%") for n in notes ))
 
     # Fetch and return events.
     events = query.all()
