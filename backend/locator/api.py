@@ -18,7 +18,7 @@ class APIError(Exception):
 
 
 
-def jsonify(jso, status_code=400):
+def jsonify(jso, status_code=200):
     jso = {**jso, "status_code": status_code}
     return flask.jsonify(jso), status_code
 
