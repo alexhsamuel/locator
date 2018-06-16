@@ -52,7 +52,7 @@ parser.add_argument(
     help="use database at PATH")
 parser.add_argument(
     "--debug", action="store_true", default=False,
-    help="run Flask server with debug and autoreload")
+    help="run Flask server with debug and auto reload")
 parser.add_argument(
     "--host", metavar="HOST", default="0.0.0.0",
     help="serve on interface HOST [def: all]")
