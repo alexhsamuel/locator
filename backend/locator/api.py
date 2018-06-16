@@ -207,6 +207,16 @@ def patch_event(event_id):
     return flask.jsonify({"event": event_to_jso(event)})
 
 
+@API.route("/events/<event_id>", methods=["DELETE"])
+def delete_event(event_id):
+    event   = look_up_event(event_id)
+
+    event.deleted = True
+    SESSION.commit()
+
+    return jsonify({})
+
+
 #-------------------------------------------------------------------------------
 # Config
 
