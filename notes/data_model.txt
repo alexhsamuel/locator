@@ -1,0 +1,40 @@
+Data model
+
+
+person
+	email #can be used as unique identifier 
+	name
+	group {asd, IT}
+	phone 
+status {out, in}
+
+group
+	name
+	coverperson #potentially for added functionality of "who is on coverage now"
+
+calendar
+	date
+	person
+	status
+	location [optional]
+
+
+80% Use Cases
+
+Display status of a person for a period of time:
+select person, date, status from calendar where date E {d1, d2} and person.email = 'alex@alex.com'
+
+Display statuses of all people that belong to a group for current week:
+select person, date, status from calendar where date E {d1, d2} and person.group.name = 'asd'
+
+Change status of a person in calendar to out
+insert into calendar
+'8/8/2018', 'alex@alex.com', 'out', 'canada'
+
+Change status of a person in calendar to in
+delete from calendar where person.email = 'alex@alex.com' and date = '8/8/2018'
+
+Admin Use Cases
+Add person
+Add group
+
