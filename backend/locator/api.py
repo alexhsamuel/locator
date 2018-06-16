@@ -103,7 +103,7 @@ def look_up_event(event_id):
     try:
         return query.one()
     except sa.orm.exc.NoResultFound:
-        raise APIError(f"no event_id: f{event_id}", 404)
+        raise APIError(f"no event_id: {event_id}", 404)
 
 
 #-------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ def get_event(event_id):
 
 
 @API.route("/events", methods=["POST"])
-def put_events():
+def post_event():
     jso = flask.request.json
 
     sdate, edate = validate_dates(jso)
@@ -190,7 +190,7 @@ def put_events():
 
 
 @API.route("/events/<event_id>", methods=["PATCH"])
-def patch_events(event_id):
+def patch_event(event_id):
     jso     = flask.request.json
     event   = look_up_event(event_id)
 
