@@ -8,6 +8,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as orm
 
 import locator.api
+import locator.config
 import locator.model
 
 DEFAULT_PORT = 11619
@@ -63,6 +64,7 @@ args = parser.parse_args()
 logging.getLogger().setLevel(logging.INFO)
 
 app = flask.Flask("locator")
+app.config.update(locator.config.get_config())
 app.register_blueprint(locator.api.API, url_prefix="/api/v1")
 locator.api.SESSION = initialize_db(app, args.database)
 app.run(host=args.host, port=args.port, debug=args.debug)
