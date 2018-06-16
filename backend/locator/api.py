@@ -18,6 +18,11 @@ class APIError(Exception):
 
 
 
+def jsonify(jso, status_code=400):
+    jso = {**jso, "status_code": status_code}
+    return flask.jsonify(jso), status_code
+
+
 def parse_date(string):
     try:
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()
@@ -111,12 +116,7 @@ API = flask.Blueprint("locator", __name__)
 
 @API.errorhandler(APIError)
 def handle_invalid_usage(exc):
-    response = flask.jsonify({
-        "status": exc.status_code,
-        "message": exc.message,
-    })
-    response.status_code = exc.status_code
-    return response
+    return jsonify({"message": exc.message}, exc.status_code)
 
 
 #-------------------------------------------------------------------------------
@@ -159,19 +159,14 @@ def get_events():
             sa.or_( Event.notes.like("%" + n + "%") for n in notes ))
 
     # Fetch and return events.
-    return flask.jsonify({
-        "status": 200,
-        "events": [ event_to_jso(e) for e in query.all() ],
-    })
+    events = query.all()
+    return jsonify({"events": [ event_to_jso(e) for e in events ]})
 
 
 @API.route("/events/<event_id>", methods=["GET"])
 def get_event(event_id):
     event = look_up_event(event_id)
-    return flask.jsonify({
-        "status": 200,
-        "event": event_to_jso(event),
-    })
+    return jsonify({"event": event_to_jso(event)})
 
 
 @API.route("/events", methods=["POST"])
@@ -190,10 +185,7 @@ def put_events():
     SESSION.add(event)
     SESSION.commit()
 
-    return flask.jsonify({
-        "status": 201,
-        "event": event_to_jso(event),
-    }), 201
+    return jsonify({"event": event_to_jso(event)}, 201)
 
 
 @API.route("/events/<event_id>", methods=["PATCH"])
@@ -211,10 +203,7 @@ def patch_events(event_id):
         event.notes = validate_notes(jso)
     SESSION.commit()
 
-    return flask.jsonify({
-        "status": 200,
-        "event": event_to_jso(event),
-    })
+    return flask.jsonify({"event": event_to_jso(event)})
 
 
 #-------------------------------------------------------------------------------
