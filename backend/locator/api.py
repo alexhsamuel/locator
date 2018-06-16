@@ -29,13 +29,52 @@ def format_date(date):
     return format(date, "%Y-%m-%d")
 
 
-def validate_dates(dates):
+def validate_user_id(jso):
+    cfg = flask.current_app.config
+    try:
+        user_id = jso["user_id"]
+    except KeyError:
+        raise APIError(f"missing user_id")
+    if user_id in cfg["users"]:
+        return user_id
+    else:
+        raise APIError(f"unknown user: {user_id}")
+
+
+def validate_dates(jso):
+    try:
+        dates = jso["dates"]
+    except KeyError:
+        raise APIError(f"missing dates")
     sdate = parse_date(dates["start"])
     edate = parse_date(dates["end"])
     if edate >= sdate:
         return sdate, edate
     else:
         raise APIError(f"end date {edate} before start date {sdate}")
+
+
+def validate_status(jso):
+    cfg = flask.current_app.config
+    try:
+        status = jso["status"]
+    except KeyError:
+        raise APIError(f"missing status")
+    if status in cfg["statuses"]:
+        return status
+    else:
+        raise APIError(f"unknown status: {status}")
+
+
+def validate_notes(jso):
+    try:
+        notes = jso["notes"]
+    except KeyError:
+        raise APIError(f"missing notes")
+    if notes is None or isinstance(notes, str):
+        return notes
+    else:
+        raise APIError(f"invalid notes: {notes}")
 
 
 def event_to_jso(event):
@@ -138,30 +177,19 @@ def get_event(event_id):
 @API.route("/events", methods=["POST"])
 def put_events():
     jso = flask.request.json
-    cfg = flask.current_app.config
-    
-    user_id = jso["user_id"]
-    if user_id not in cfg["users"]:
-        raise APIError(f"unknown user: {user_id}")
 
-    sdate, edate = validate_dates(jso["dates"])
-    
-    status = jso["status"]
-    if status not in cfg["statuses"]:
-        raise APIError(f"unknown status: {status}")
-
+    sdate, edate = validate_dates(jso)
     event = Event(
         deleted     =False,
-        user_id     =user_id,
+        user_id     =validate_user_id(jso),
         start_date  =sdate,
         end_date    =edate,
-        status      =status,
-        notes       =jso.get("notes", ""),
+        status      =validate_status(jso),
+        notes       =validate_notes(jso),
     )
     SESSION.add(event)
     SESSION.commit()
 
-    # FIXME: Return a proper response.
     return flask.jsonify({
         "status": 201,
         "event": event_to_jso(event),
@@ -171,36 +199,18 @@ def put_events():
 @API.route("/events/<event_id>", methods=["PATCH"])
 def patch_events(event_id):
     jso     = flask.request.json
-    cfg     = flask.current_app.config
     event   = look_up_event(event_id)
 
     if "user_id" in jso:
-        user_id = jso["user_id"]
-        if user_id in cfg["users"]:
-            event.user_id = user_id
-        else:
-            raise APIError(f"unknown user: {user_id}")
-
+        event.user_id = validate_user_id(jso)
     if "dates" in jso:
-        event.start_date, event.end_date = validate_dates(jso["dates"])
-
+        event.start_date, event.end_date = validate_dates(jso)
     if "status" in jso:
-        status = jso["status"]
-        if status in cfg["statuses"]:
-            event.status = status
-        else:
-            raise APIError(f"unknown status: {status}")
-
+        event.status = validate_status(jso)
     if "notes" in jso:
-        notes = jso["notes"]
-        if notes is None or isinstance(notes, str):
-            event.notes = notes
-        else:
-            raise APIError(f"invalid notes: {notes}")
-
+        event.notes = validate_notes(jso)
     SESSION.commit()
 
-    # FIXME: Return a proper response.
     return flask.jsonify({
         "status": 200,
         "event": event_to_jso(event),
