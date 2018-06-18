@@ -25,5 +25,7 @@
 ![main](imgs/login.png "login")
 
 
-### new even form
+### new event form
 ![main](imgs/new_event.png "login")
+
+* Note: the where will be a populated drop down menu (they didn't have a good one on the wireframe site)
