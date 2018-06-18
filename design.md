@@ -27,5 +27,11 @@
 
 ### new event form
 ![main](imgs/new_event.png "login")
+[source](https://wireframe.cc/nOFTKC)
 
-* Note: the where will be a populated drop down menu (they didn't have a good one on the wireframe site)
+
+* The where will be a populated drop down menu (they didn't have a good one on the wireframe site)
+* group will be maintained in the database? 
+  * alternately should we create a "profile" page to set user details and maintain them?
+  
+  
