@@ -9,12 +9,10 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@vuikit/icons": "^0.8.1",
-    "@vuikit/theme": "^0.8.1",
+    "uikit": "^3.0.0-rc.17",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "vuikit": "^0.8.10"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",

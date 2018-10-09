@@ -1,23 +1,15 @@
 <template lang="pug">
-span
-  vk-button User: {{ userId }}
-  vk-dropdown
-    vk-nav-dropdown(v-for="user in users" :key="user.user_id")
-      span(v-on:click="setUser(user.user_id)") {{ user.user_id }}
+span.uk-inline
+  button.uk-button.uk-button-default(type=button) User: {{ userId }}
+  div(uk-dropdown="mode: click")
+    ul.uk-nav.uk-dropdown-nav
+      li(v-for="user in users" :key="user.user_id")
+        span(v-on:click="setUser(user.user_id)") {{ user.user_id }}
 </template>
 
 <script>
-import { Button } from 'vuikit/lib/button'
-import { Dropdown } from 'vuikit/lib/dropdown'
-import { NavDropdown } from 'vuikit/lib/nav'
-
 export default {
   name: 'UserSelect',
-  components: {
-    VkButton: Button,
-    VkDropdown: Dropdown,
-    VkNavDropdown: NavDropdown,
-  },
 
   data() {
     return {
