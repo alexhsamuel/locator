@@ -1,10 +1,11 @@
 <template lang="pug">
 .home
-  UserSelect
-  | Status:
-  StatusSelect
-  | Notes:
-  input.uk-input#notes
+  label.uk-form-label User:
+  UserSelect.uk-form-width-small
+  label.uk-form-label Status:
+  StatusSelect.uk-form-width-small
+  label.uk-form-label Notes:
+  input.uk-input.uk-form-width-medium
 </template>
 
 <script>
@@ -22,10 +23,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#status {
-  width: 12rem;
+label {
+  width: 8rem;
+  text-transform: uppercase;
+  margin: 0 4px 0 12px;
 }
-#notes {
-  width: 20rem;
-}
+
 </style>

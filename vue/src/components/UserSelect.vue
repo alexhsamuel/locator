@@ -1,6 +1,6 @@
 <template lang="pug">
 span.uk-inline
-  button.uk-button.uk-button-default(type=button) User: {{ userId }}
+  button.uk-button.uk-button-default(type=button) {{ userId || '&nbsp;' }}
   div(uk-dropdown="mode: click")
     ul.uk-nav.uk-dropdown-nav
       li(v-for="user in users" :key="user.user_id")
@@ -34,10 +34,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+span {
+  display: inline-block;
+}
+
+button {
+  width: 100%;
+  text-transform: none;
+}
+
 .uk-dropdown-nav {
   cursor: default;
   span {
-    text-transform: uppercase;
   }
 }
 </style>
