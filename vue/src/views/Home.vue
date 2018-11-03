@@ -4,18 +4,23 @@
   UserSelect.uk-form-width-small
   label.uk-form-label Status:
   StatusSelect.uk-form-width-small
+  label.uk-form-label Start:
+  DateSelect.uk-form-width-small
+  label.uk-form-label End:
+  DateSelect.uk-form-width-small
   label.uk-form-label Notes:
   input.uk-input.uk-form-width-medium
 </template>
 
 <script>
-// @ is an alias to /src
+import DateSelect from '@/components/DateSelect.vue'
 import StatusSelect from '@/components/StatusSelect.vue'
 import UserSelect from '@/components/UserSelect.vue'
 
 export default {
   name: 'home',
   components: {
+    DateSelect,
     StatusSelect,
     UserSelect,
   }
