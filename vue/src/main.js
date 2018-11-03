@@ -14,5 +14,14 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+
+  created() {
+    console.log('created')
+    fetch('/api/v1/statuses')
+      .then((rsp) => rsp.json())
+      .then((rsp) => rsp.statuses)
+      .then((statuses) => { this.$store.commit('setStatuses', statuses) })
+  }
 }).$mount('#app')
+

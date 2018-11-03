@@ -13,9 +13,12 @@ export default {
 
   data() {
     return {
-      'status': null,
-      'statuses': [],
+      status: null,
     }
+  },
+
+  computed: {
+    statuses() { return this.$store.state.statuses },
   },
 
   methods: {
@@ -24,12 +27,6 @@ export default {
     }
   },
 
-  created() {
-    fetch('/api/v1/statuses')
-      .then((rsp) => rsp.json())
-      .then((rsp) => rsp.statuses)
-      .then((statuses) => { this.statuses = statuses })
-  },
 }
 </script>
 
