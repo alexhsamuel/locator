@@ -13,9 +13,12 @@ export default {
 
   data() {
     return {
-      'users': [],
-      'userId': null,
+      userId: null,
     }
+  },
+
+  computed: {
+    users() { return this.$store.state.users },
   },
 
   methods: {
@@ -24,12 +27,6 @@ export default {
     }
   },
 
-  created() {
-    fetch('/api/v1/users')
-      .then((rsp) => rsp.json())
-      .then((rsp) => rsp.users)
-      .then((users) => { this.users = users })
-  },
 }
 </script>
 

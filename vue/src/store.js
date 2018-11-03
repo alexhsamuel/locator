@@ -6,11 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     statuses: [],
+    users: [],
   },
 
   mutations: {
     setStatuses(state, statuses) {
       state.statuses = statuses
+    },
+
+    setUsers(state, users) {
+      state.users = users
     },
 
   },
