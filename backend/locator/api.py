@@ -237,8 +237,7 @@ def get_groups():
 
 @API.route("/statuses", methods=["GET"])
 def get_statuses():
-    return flask.jsonify({
-        "status": 200,
+    return jsonify({
         "statuses": sorted(flask.current_app.config["statuses"]),
     })
 
@@ -246,8 +245,7 @@ def get_statuses():
 @API.route("/users", methods=["GET"])
 def get_users():
     users = flask.current_app.config["users"]
-    return flask.jsonify({
-        "status": 200,
+    return jsonify({
         "users": [
             {
                 "user_id": i,

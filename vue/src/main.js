@@ -2,9 +2,10 @@ import Vue from 'vue'
 import UIkit from 'uikit'
 import Icons from 'uikit/dist/js/uikit-icons'
 
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store'
+import { getStatuses, getUsers } from '@/api'
 
 UIkit.use(Icons)
 window.UIkit = UIkit
@@ -18,12 +19,14 @@ new Vue({
 
   created() {
     console.log('created')
-    fetch('/api/v1/statuses')
-      .then((rsp) => rsp.json())
-      .then((rsp) => { this.$store.commit('setStatuses', rsp.statuses) })
-    fetch('/api/v1/users')
-      .then((rsp) => rsp.json())
-      .then((rsp) => { this.$store.commit('setUsers', rsp.users) })
+
+    // Load "constants" up front.
+    getStatuses().then(statuses => { 
+      this.$store.commit('setStatuses', statuses)
+    })
+    getUsers().then(users => {
+      this.$store.commit('setUsers', users)
+    })
   }
 }).$mount('#app')
 
