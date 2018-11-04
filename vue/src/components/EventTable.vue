@@ -8,6 +8,13 @@ table.event-table
       th.end-date End Date
       th.notes Notes
 
+  tbody
+    tr(v-for="event in events")
+      td.user {{ event.user_id }}
+      td.status {{ event.status }}
+      td.start-date {{ event.dates.start }}
+      td.end-date {{ event.dates.end }}
+      td.notes {{ event.notes }}
 
 </template>
 
