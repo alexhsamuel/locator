@@ -69,7 +69,8 @@ export default {
   th {
     text-align: left;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 700;
+    font-size: 90%;
   }
 
   .user {

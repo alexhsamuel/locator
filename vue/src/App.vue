@@ -18,6 +18,10 @@
 // 4. Import UIkit.
 @import "uikit/src/scss/uikit-theme.scss";
 
+html {
+  font-family: Helvetica, monospace;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
