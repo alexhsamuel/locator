@@ -2,26 +2,34 @@
 table.event-table
   thead
     tr
-      th.user User
-      th.status Status
-      th.start-date Start Date
-      th.end-date End Date
-      th.notes Notes
+      th.user: .field User
+      th.status: .field Status
+      th.start-date: .field Start Date
+      th.end-date: .field End Date
+      th.notes: .field Notes
 
   tbody
     tr(v-for="event in events")
-      td.user {{ event.user_id }}
-      td.status {{ event.status }}
-      td.start-date {{ event.dates.start }}
-      td.end-date {{ event.dates.end }}
-      td.notes {{ event.notes }}
+      td.user: .field {{ event.user_id }}
+      td.status: .field {{ event.status }}
+      td.start-date: .field {{ event.dates.start }}
+      td.end-date: .field {{ event.dates.end }}
+      td.notes: .field {{ event.notes }}
+
+    EventRowEdit
 
 </template>
 
 <script>
 import { sortBy } from 'lodash'
 
+import EventRowEdit from '@/components/EventRowEdit.vue'
+
 export default {
+  components: {
+    EventRowEdit,
+  },
+
   data() {
     return {
       events_: [],
@@ -50,7 +58,7 @@ export default {
   tr {
     border: 1px solid red;
   }
-  th, td {
+  .field {
     padding: 2px 8px;
   }
   th {
