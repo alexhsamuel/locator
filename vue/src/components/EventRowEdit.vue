@@ -10,6 +10,8 @@ tr
     DateSelect
   td.notes
     input.uk-input
+    button.uk-button.uk-button-default Add
+    button.uk-button.uk-button-default Cancel
 </template>
 
 <script>
@@ -27,5 +29,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+td.notes {
+  display: flex;
+  input {
+    flex-grow: 1;
+  }
+  button {
+    flex-grow: 0;
+  }
+}
 </style>
