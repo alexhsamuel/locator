@@ -1,6 +1,7 @@
 async function get(url) {
   url = '/api/v1' + url
   const rsp = await fetch(url)
+  // FIXME: Do something more useful on failure.
   if (rsp.status != 200) {
     console.log('get', url, 'failed:', rsp)
     return

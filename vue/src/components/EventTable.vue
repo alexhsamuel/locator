@@ -1,22 +1,25 @@
 <template lang="pug">
-table.event-table
-  thead
-    tr
-      th.user: .field User
-      th.status: .field Status
-      th.start-date: .field Start Date
-      th.end-date: .field End Date
-      th.notes: .field Notes
+div
+  table.event-table
+    thead
+      tr
+        th.user: .field User
+        th.status: .field Status
+        th.start-date: .field Start Date
+        th.end-date: .field End Date
+        th.notes: .field Notes
 
-  tbody
-    tr(v-for="event in events")
-      td.user: .field {{ event.user_id }}
-      td.status: .field {{ event.status }}
-      td.start-date: .field {{ event.dates.start }}
-      td.end-date: .field {{ event.dates.end }}
-      td.notes: .field {{ event.notes }}
+    tbody
+      tr(v-for="event in events")
+        td.user: .field {{ event.user_id }}
+        td.status: .field {{ event.status }}
+        td.start-date: .field {{ event.dates.start }}
+        td.end-date: .field {{ event.dates.end }}
+        td.notes: .field {{ event.notes }}
 
-    EventRowEdit
+      EventRowEdit(v-if="adding")
+
+  button.uk-button.uk-button-default(v-if="!adding" v-on:click="adding = true") Add
 
 </template>
 
@@ -34,6 +37,7 @@ export default {
   data() {
     return {
       events_: [],
+      adding: false,
     }
   },
 
