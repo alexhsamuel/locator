@@ -8,7 +8,6 @@ import requests
 
 DAY         = datetime.timedelta(1)
 
-NUM_EVENTS  = 64
 START_DATE  = datetime.date(2018, 1, 1)
 END_DATE    = datetime.date(2019, 1, 1)
 MAX_LENGTH  = 14
@@ -31,6 +30,9 @@ parser.add_argument(
 parser.add_argument(
     "--port", metavar="PORT", type=int, default=11619,
     help=f"serve on PORT [def: 11619]")
+parser.add_argument(
+    "--number", metavar="NUM", type=int, default=64,
+    help="populate NUM test events")
 args = parser.parse_args()
 
 url = f"http://{args.host}:{args.port}/api/v1"
@@ -43,7 +45,7 @@ rsp = requests.get(f"{url}/users")
 rsp.raise_for_status()
 user_ids = [ u["user_id"] for u in rsp.json()["users"] ]
 
-for _ in range(NUM_EVENTS):
+for _ in range(args.number):
     start_date = START_DATE + DAY * randint(0, (END_DATE - START_DATE).days)
     end_date = start_date + DAY * randint(1, MAX_LENGTH)
     notes = None if randint(0, 1) else " ".join( choice(WORDS) for _ in range(randint(3, 8)) )
