@@ -19,17 +19,25 @@ table.event-table
 </template>
 
 <script>
+import { sortBy } from 'lodash'
+
 export default {
   data() {
     return {
-      events: [],
+      events_: [],
     }
+  },
+
+  computed: {
+    events() {
+      return sortBy(this.events_, e => e.dates.start)
+    },
   },
 
   created() {
     fetch('/api/v1/events')
       .then((rsp) => rsp.json())
-      .then((rsp) => { this.events = rsp.events })
+      .then((rsp) => { this.events_ = rsp.events })
   },
 }
 </script>
@@ -47,7 +55,8 @@ export default {
   }
   th {
     text-align: left;
-    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: 400;
   }
 
   .user {
