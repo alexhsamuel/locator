@@ -24,6 +24,7 @@ table.event-table
 import { sortBy } from 'lodash'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
+import { searchEvents } from '@/api.js'
 
 export default {
   components: {
@@ -43,9 +44,9 @@ export default {
   },
 
   created() {
-    fetch('/api/v1/events')
-      .then((rsp) => rsp.json())
-      .then((rsp) => { this.events_ = rsp.events })
+    searchEvents().then(events => { 
+      this.events_ = events 
+    })
   },
 }
 </script>
