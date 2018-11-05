@@ -10,20 +10,24 @@ span.uk-inline
 <script>
 export default {
   name: 'UserSelect',
+  props: ['value'],
 
   data() {
     return {
-      userId: null,
+      userId: this.value,
     }
   },
 
   computed: {
-    users() { return this.$store.state.users },
+    users() {
+      return this.$store.state.users
+    },
   },
 
   methods: {
     setUser(userId) {
       this.userId = userId
+      this.$emit('input', userId)
     }
   },
 
