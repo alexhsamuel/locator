@@ -39,7 +39,7 @@ export default {
 
   methods: {
     onOk() {
-      const event = {
+      this.$emit('ok', {
         user_id: this.userId,
         status: this.status,
         dates: {
@@ -47,9 +47,7 @@ export default {
           end: this.endDate,
         },
         notes: this.notes,
-      }
-      console.log('emit', event)
-      this.$emit('ok', event)
+      })
     }
   },
 }
