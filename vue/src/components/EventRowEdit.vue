@@ -9,7 +9,7 @@ tr
   td.end
     DateSelect(v-model="endDate")
   td.notes
-    input.uk-input(v-model="notes")
+    input(v-model="notes")
     button(v-on:click="onOk()") Add
     button(v-on:click="$emit('cxl')") Cancel
 
@@ -58,11 +58,19 @@ button {
   background: #fafaff;
   color: #444;
   font-size: 90%;
-  border: 1px solid #ccc;
   text-transform: uppercase;
+  line-height: 40px;
+  border: 1px solid #ccc;
   padding: 4px 12px;
-  width: 12em;
-  height: 3em;
+}
+
+input {
+  background: #fafafa;
+  color: black;
+  font-size: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  padding: 4px 12px;
 }
 </style>
 
