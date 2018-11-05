@@ -10,20 +10,24 @@ span.uk-inline
 <script>
 export default {
   name: 'StatusSelect',
+  props: ['value'],
 
   data() {
     return {
-      status: null,
+      status: this.value,
     }
   },
 
   computed: {
-    statuses() { return this.$store.state.statuses },
+    statuses() {
+      return this.$store.state.statuses
+    },
   },
 
   methods: {
     setStatus(status) {
       this.status = status
+      this.$emit('input', status)
     }
   },
 
