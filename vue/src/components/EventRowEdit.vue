@@ -1,17 +1,18 @@
 <template lang="pug">
 tr
   td.user
-    UserSelect
+    UserSelect(v-model="userId")
   td.status
-    StatusSelect
+    StatusSelect(v-model="status")
   td.start
-    DateSelect
+    DateSelect(v-model="startDate")
   td.end
-    DateSelect
+    DateSelect(v-model="endDate")
   td.notes
-    input.uk-input
-    button.uk-button.uk-button-default Add
-    button.uk-button.uk-button-default Cancel
+    input.uk-input(v-model="notes")
+    button(v-on:click="onOk()") Add
+    button(v-on:click="$emit('cxl')") Cancel
+
 </template>
 
 <script>
@@ -24,13 +25,58 @@ export default {
     DateSelect,
     StatusSelect,
     UserSelect,
-  }
+  },
+
+  data() {
+    return {
+      userId: '',
+      status: '',
+      startDate: '',
+      endDate: '',
+      notes: '',
+    }
+  },
+
+  methods: {
+    onOk() {
+      const event = {
+        user_id: this.userId,
+        status: this.status,
+        dates: {
+          start: this.startDate,
+          end: this.endDate,
+        },
+        notes: this.notes,
+      }
+      console.log('emit', event)
+      this.$emit('ok', event)
+    }
+  },
 }
 </script>
+
+<style lang="scss">
+button {
+  background: #fafaff;
+  color: #444;
+  font-size: 90%;
+  border: 1px solid #ccc;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  width: 12em;
+  height: 3em;
+}
+</style>
 
 <style lang="scss" scoped>
 td.notes {
   display: flex;
+  align-items: center;
+
+  > * { margin: 0 5px; }    
+  > :first-child { margin-left: 0; }
+  > :last-child { margin-right: 0; }
+
   input {
     flex-grow: 1;
   }

@@ -17,9 +17,13 @@ div
         td.end-date: .field {{ event.dates.end }}
         td.notes: .field {{ event.notes }}
 
-      EventRowEdit(v-if="adding")
+      EventRowEdit(
+        v-if="adding"
+        v-on:cxl="adding = false"
+        v-on:ok="addEvent($event)"
+        )
 
-  button.uk-button.uk-button-default(v-if="!adding" v-on:click="adding = true") Add
+  button(v-if="!adding" v-on:click="adding = true") Add
 
 </template>
 
@@ -47,6 +51,13 @@ export default {
     },
   },
 
+  methods: {
+    addEvent(event) {
+      console.log(event)
+      console.log(event.user_id)
+    }
+  },
+
   created() {
     searchEvents().then(events => { 
       this.events_ = events 
@@ -61,7 +72,6 @@ export default {
   width: 100%;
   border-collapse: collapse;
   tr {
-    border: 1px solid red;
   }
   .field {
     padding: 2px 8px;
