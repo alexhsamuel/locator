@@ -31,7 +31,7 @@ div
 import { sortBy } from 'lodash'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
-import { searchEvents } from '@/api.js'
+import { postEvent, searchEvents } from '@/api.js'
 
 export default {
   components: {
@@ -53,8 +53,11 @@ export default {
 
   methods: {
     addEvent(event) {
-      console.log(event)
-      console.log(event.user_id)
+      this.adding = false
+      postEvent(event).then(event => {
+        this.events_.push(event)
+        
+      })
     }
   },
 
