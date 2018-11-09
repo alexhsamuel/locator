@@ -56,7 +56,6 @@ export default {
       this.adding = false
       postEvent(event).then(event => {
         this.events_.push(event)
-        
       })
     }
   },
