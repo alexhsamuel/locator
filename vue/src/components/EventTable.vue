@@ -19,11 +19,12 @@ div
 
       EventRowEdit(
         v-if="adding"
+        v-model="newEvent"
         v-on:cxl="adding = false"
         v-on:ok="addEvent($event)"
         )
 
-  button(v-if="!adding" v-on:click="adding = true") Add
+  button(v-if="!adding" v-on:click="onAdd()") Add
 
 </template>
 
@@ -31,7 +32,7 @@ div
 import { sortBy } from 'lodash'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
-import { postEvent, searchEvents } from '@/api.js'
+import { postEvent, searchEvents, emptyEvent } from '@/api.js'
 
 export default {
   components: {
@@ -42,6 +43,7 @@ export default {
     return {
       events_: [],
       adding: false,
+      newEvent: null,
     }
   },
 
@@ -52,6 +54,12 @@ export default {
   },
 
   methods: {
+    onAdd() {
+      this.newEvent = emptyEvent()
+      console.log('newEvent', this.newEvent)
+      this.adding = true
+    },
+
     addEvent(event) {
       this.adding = false
       postEvent(event).then(event => {

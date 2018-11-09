@@ -1,16 +1,16 @@
 <template lang="pug">
 tr
   td.user
-    UserSelect(v-model="userId")
+    UserSelect(v-model="value.user_id")
   td.status
-    StatusSelect(v-model="status")
+    StatusSelect(v-model="value.status")
   td.start
-    DateSelect(v-model="startDate")
+    DateSelect(v-model="value.dates.start")
   td.end
-    DateSelect(v-model="endDate")
+    DateSelect(v-model="value.dates.end")
   td.notes
-    input(v-model="notes")
-    button(v-on:click="onOk()") Add
+    input(v-model="value.notes")
+    button(v-on:click="$emit('ok', value)") Add
     button(v-on:click="$emit('cxl')") Cancel
 
 </template>
@@ -21,6 +21,7 @@ import StatusSelect from '@/components/StatusSelect.vue'
 import UserSelect from '@/components/UserSelect.vue'
 
 export default {
+  props: ['value'],
   components: {
     DateSelect,
     StatusSelect,
@@ -29,25 +30,6 @@ export default {
 
   data() {
     return {
-      userId: '',
-      status: '',
-      startDate: '',
-      endDate: '',
-      notes: '',
-    }
-  },
-
-  methods: {
-    onOk() {
-      this.$emit('ok', {
-        user_id: this.userId,
-        status: this.status,
-        dates: {
-          start: this.startDate,
-          end: this.endDate,
-        },
-        notes: this.notes,
-      })
     }
   },
 }
@@ -59,6 +41,7 @@ button {
   color: #444;
   font-size: 90%;
   text-transform: uppercase;
+  width: 12em;
   line-height: 40px;
   border: 1px solid #ccc;
   padding: 4px 12px;
@@ -68,6 +51,7 @@ input {
   background: #fafafa;
   color: black;
   font-size: 100%;
+  box-sizing: border-box;
   height: 40px;
   border: 1px solid #ccc;
   padding: 4px 12px;

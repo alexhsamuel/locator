@@ -31,13 +31,40 @@ export async function searchEvents() {
 }
 
 export async function postEvent(event) {
+  const body = {
+    user_id: event.user_id,
+    status: event.status,
+    dates: {
+      start: event.dates.start.toISOString().substring(0, 10),
+      end: event.dates.end.toISOString().substring(0, 10),
+    },
+    notes: event.notes,
+  }
+
   // FIXME: Validate event.
   return (await get('/events', {
     method: 'POST',
-    body: JSON.stringify(event),
+    body: JSON.stringify(body),
     headers:{
       'Content-Type': 'application/json'
     },
   })).event
 }
 
+function today() {
+  const now = new Date()
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
+}
+
+export function emptyEvent() {
+  const t = today()
+  return {
+    user_id: null,
+    status: null,
+    dates: {
+      start: t,
+      end: t,
+    },
+    notes: '',
+  }
+}
