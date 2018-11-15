@@ -1,0 +1,25 @@
+{
+    "statuses": [
+        "remote",
+        "sick",
+        "medical",
+        "vacation",
+        "personal",
+        "Greenwich",
+        "NYC",
+        "London"
+    ],
+    "users": [
+        "asamuel", 
+        "ebernste", 
+        "kmalyar",
+        "mlumelsk",
+        "mroiter", 
+        "ptj",
+        "scai", 
+        "slevin",
+        "sgorbey"
+    ],
+    "groups": {
+    }
+}

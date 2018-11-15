@@ -3,6 +3,7 @@
 import argparse
 import flask
 import logging
+import pathlib
 
 import locator.api
 import locator.config
@@ -30,12 +31,15 @@ parser.add_argument(
 parser.add_argument(
     "--port", metavar="PORT", type=int, default=DEFAULT_PORT,
     help=f"serve on PORT [def: {DEFAULT_PORT}]")
+parser.add_argument(
+    "config_path", metavar="CFG-FILE", type=pathlib.Path,
+    help="load config from JSON CFG-FILE")
 args = parser.parse_args()
 
 logging.getLogger().setLevel(logging.INFO)
 
 app = flask.Flask("locator")
-app.config.update(locator.config.get_config())
+app.config.update(locator.config.load_config(args.config_path))
 app.register_blueprint(locator.api.API, url_prefix="/api/v1")
 
 # Set up the database session.
