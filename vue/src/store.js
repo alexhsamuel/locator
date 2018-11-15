@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { date } from '@/date'
+import { date, formatDate } from '@/date'
 
 Vue.use(Vuex)
 
@@ -43,7 +43,7 @@ const store = new Vuex.Store({
 function rollDate() {
   const now = new Date()
   const today = date(now)
-  store.commit('setDate', today)
+  store.commit('setDate', formatDate(today))
   const timeToMidnight = 86400000 - (now - today)
   console.log('timeToMidnight', timeToMidnight)
   window.setTimeout(rollDate, timeToMidnight)

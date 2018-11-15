@@ -10,7 +10,10 @@ div
         th.notes: .field Notes
 
     tbody
-      tr(v-for="event in events")
+      tr(
+          v-for="event in events" 
+          :class='{ current: inRange($store.state.date, event.dates.start, event.dates.end) }'
+      )
         td.user: .field {{ event.user_id }}
         td.status: .field {{ event.status }}
         td.start-date: .field {{ event.dates.start }}
@@ -29,12 +32,14 @@ div
 </template>
 
 <script>
-import { sortBy } from 'lodash'
+import { filter, sortBy } from 'lodash'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
-import { postEvent, searchEvents, emptyEvent } from '@/api.js'
+import { postEvent, searchEvents, emptyEvent } from '@/api'
+import { inRange, overlap } from '@/date'
 
 export default {
+  props: ['start', 'end'],
   components: {
     EventRowEdit,
   },
@@ -49,14 +54,20 @@ export default {
 
   computed: {
     events() {
-      return sortBy(this.events_, e => e.dates.start)
+      console.log('start=', this.start, 'end=', this.end)
+      return sortBy(
+        filter(
+          this.events_, 
+          e => overlap(this.start, this.end, e.dates.start, e.dates.end)), 
+        e => e.dates.start)
     },
   },
 
   methods: {
+    inRange,
+
     onAdd() {
       this.newEvent = emptyEvent()
-      console.log('newEvent', this.newEvent)
       this.adding = true
     },
 
@@ -81,6 +92,9 @@ export default {
 .event-table {
   width: 100%;
   border-collapse: collapse;
+  thead {
+    border-bottom: 1px solid #666;
+  }
   tr {
   }
   .field {
@@ -91,6 +105,9 @@ export default {
     text-transform: uppercase;
     font-weight: 700;
     font-size: 90%;
+  }
+  tbody {
+    color: #bbb;
   }
 
   .user {
@@ -106,7 +123,9 @@ export default {
     width: 8em;
   }
   .notes {
-
+  }
+  .current {
+    color: #666;
   }
 }
 </style>
