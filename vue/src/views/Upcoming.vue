@@ -1,18 +1,24 @@
 <template lang="pug">
-.home
-  EventTable
+div
+  h1 Upcoming Coordinates
+  EventTable(
+    :start='$store.state.date')
 </template>
 
 <script>
 import EventTable from '@/components/EventTable.vue'
 
 export default {
-  name: 'home',
+  name: 'Upcoming',
   components: {
     EventTable,
-  }
+  },
+
+  computed: {
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+
 </style>
