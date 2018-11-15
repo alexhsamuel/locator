@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { searchEvents } from '@/api'
 import { date, formatDate } from '@/date'
 
 Vue.use(Vuex)
@@ -9,6 +10,7 @@ const store = new Vuex.Store({
   state: {
     statuses: [],
     users: [],
+    events: [],
     date: null,
   },
 
@@ -32,6 +34,14 @@ const store = new Vuex.Store({
       state.users = users
     },
 
+    addEvent(state, event) {
+      state.events.push(event)
+    },
+
+    refreshEvents(state, events) {
+      state.events = events
+    }
+
   },
 
   actions: {
@@ -50,5 +60,9 @@ function rollDate() {
 }
 
 rollDate()
+
+searchEvents().then(events => { 
+  store.commit('refreshEvents', events)
+})
 
 export default store

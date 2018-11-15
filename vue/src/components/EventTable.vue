@@ -35,7 +35,7 @@ div
 import { filter, sortBy } from 'lodash'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
-import { postEvent, searchEvents, emptyEvent } from '@/api'
+import { postEvent, emptyEvent } from '@/api'
 import { inRange, overlap } from '@/date'
 
 export default {
@@ -46,7 +46,6 @@ export default {
 
   data() {
     return {
-      events_: [],
       adding: false,
       newEvent: null,
     }
@@ -54,10 +53,9 @@ export default {
 
   computed: {
     events() {
-      console.log('start=', this.start, 'end=', this.end)
       return sortBy(
         filter(
-          this.events_, 
+          this.$store.state.events, 
           e => overlap(this.start, this.end, e.dates.start, e.dates.end)), 
         e => e.dates.start)
     },
@@ -73,17 +71,13 @@ export default {
 
     addEvent(event) {
       this.adding = false
+      // FIXME: addEvent should be an action that posts the event.
       postEvent(event).then(event => {
-        this.events_.push(event)
+        this.$store.commit('addEvent', event)
       })
     }
   },
 
-  created() {
-    searchEvents().then(events => { 
-      this.events_ = events 
-    })
-  },
 }
 </script>
 
