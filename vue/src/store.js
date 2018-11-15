@@ -53,14 +53,15 @@ const store = new Vuex.Store({
 function rollDate() {
   const now = new Date()
   const today = date(now)
-  store.commit('setDate', formatDate(today))
+  // Sleep until next midnight, then update the date again.
   const timeToMidnight = 86400000 - (now - today)
-  console.log('timeToMidnight', timeToMidnight)
   window.setTimeout(rollDate, timeToMidnight)
 }
 
+// Initialize the date.
 rollDate()
 
+// Load events from the back end.
 searchEvents().then(events => { 
   store.commit('refreshEvents', events)
 })

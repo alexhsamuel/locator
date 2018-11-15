@@ -103,6 +103,9 @@ export default {
   tbody {
     color: #bbb;
   }
+  td {
+    vertical-align: top;
+  }
 
   .user {
     width: 8em;
