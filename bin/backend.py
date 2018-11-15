@@ -3,41 +3,12 @@
 import argparse
 import flask
 import logging
-from   pathlib import Path
-import sqlalchemy as sa
-import sqlalchemy.orm as orm
 
 import locator.api
 import locator.config
 import locator.model
 
 DEFAULT_PORT = 11619
-
-#-------------------------------------------------------------------------------
-
-def initialize_db(app, db_path):
-    """
-    Creates or opens the database, and connects it to the Flask app.
-
-    :return:
-      The scoped session object.
-    """
-    db_path = Path(db_path).absolute()
-    logging.info(f"using database: {db_path}")
-    engine = sa.create_engine(f"sqlite:///{db_path}")
-
-    session = orm.scoped_session(
-        orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
-
-    @app.teardown_appcontext
-    def shutdown_session(exception=None):
-        session.remove()
-
-    locator.model.Base.query = session.query_property()
-    locator.model.Base.metadata.create_all(engine)
-
-    return session
-
 
 #-------------------------------------------------------------------------------
 
@@ -66,6 +37,16 @@ logging.getLogger().setLevel(logging.INFO)
 app = flask.Flask("locator")
 app.config.update(locator.config.get_config())
 app.register_blueprint(locator.api.API, url_prefix="/api/v1")
-locator.api.SESSION = initialize_db(app, args.database)
+
+# Set up the database session.
+session = locator.model.initialize_db(args.database)
+locator.api.SESSION = session
+
+# Close the session when we exit.
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    session.remove()
+
+# Go.
 app.run(host=args.host, port=args.port, debug=args.debug)
 
