@@ -7,7 +7,7 @@ div
         th.status: .field Coordinates
         th.start-date: .field From
         th.end-date: .field To
-        th.notes: .field Notes
+        th.notes: .field 
 
     tbody
       tr(

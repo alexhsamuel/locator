@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { searchEvents } from '@/api'
-import { date } from '@/date'
+import { date, formatDate } from '@/date'
 
 Vue.use(Vuex)
 
@@ -22,8 +22,7 @@ const store = new Vuex.Store({
 
   mutations: {
     setDate(state, date) {
-      console.log('setDate', date)
-      state.date = date
+       state.date = date
     },
 
     setStatuses(state, statuses) {
@@ -53,6 +52,7 @@ const store = new Vuex.Store({
 function rollDate() {
   const now = new Date()
   const today = date(now)
+  store.commit('setDate', formatDate(today))
   // Sleep until next midnight, then update the date again.
   const timeToMidnight = 86400000 - (now - today)
   window.setTimeout(rollDate, timeToMidnight)
