@@ -3,10 +3,10 @@ div
   table.event-table
     thead
       tr
-        th.user: .field User
-        th.status: .field Status
-        th.start-date: .field Start Date
-        th.end-date: .field End Date
+        th.user: .field Colleage
+        th.status: .field Coordinates
+        th.start-date: .field From
+        th.end-date: .field To
         th.notes: .field Notes
 
     tbody
