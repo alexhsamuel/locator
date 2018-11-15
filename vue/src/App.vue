@@ -3,6 +3,8 @@
   #nav
     router-link(to="/") Home
     |  | 
+    router-link(to="/upcoming") Upcoming
+    |  | 
     router-link(to="/about") About
   .uk-container.uk-container-expand.uk-margin-top
     router-view
