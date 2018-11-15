@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { searchEvents } from '@/api'
-import { date, formatDate } from '@/date'
+import { date } from '@/date'
 
 Vue.use(Vuex)
 
