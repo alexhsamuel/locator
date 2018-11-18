@@ -53,9 +53,9 @@ export default {
 
 <style lang="scss" scoped>
 .event {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   padding: 8px 16px;
-  margin: 8px;
+  margin: 12px 0;
 
   .title {
     font-size: 180%;
@@ -63,6 +63,7 @@ export default {
 
   .dates {
     float: right;
+    margin-top: 8px;
   }
 }
 </style>

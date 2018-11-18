@@ -119,8 +119,6 @@ export default {
   .end-date {
     width: 8em;
   }
-  .notes {
-  }
   .current {
     color: #666;
   }

@@ -3,10 +3,9 @@
   #nav
     .date {{ $store.state.date }}
     div
-      router-link(to="/") Today
-      |  | 
+      span.logo Coordinates
+      router-link(to="/") Home
       router-link(to="/upcoming") Upcoming
-      |  | 
       router-link(to="/about") About
 
   .uk-container.uk-container-expand.uk-margin-top
@@ -33,16 +32,24 @@ html {
 }
 #nav {
   padding: 30px;
+  background-color: #ddd;
+  .logo {
+    font-size: 160%;
+    margin-right: 18px;
+    font-style: italic;
+  }
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #666;
+    margin-left: 12px;
+    margin-right: 12px;
     &.router-link-exact-active {
-      color: #42b983;
+      text-decoration: underline;
     }
   }
-
   .date {
     float: right;
+    padding-top: 8px;
   }
 }
 </style>
