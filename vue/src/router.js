@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Today from './views/Today.vue'
+import Home from './views/Home.vue'
 import Upcoming from './views/Upcoming.vue'
 
 Vue.use(Router)
@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Today
+      component: Home
     },
     {
       path: '/upcoming',
