@@ -1,7 +1,6 @@
 <template lang="pug">
 span.uk-inline
-  Datepicker(format="yyyy-MM-dd")
-  // input(v-model="date" v-on:input="$emit('input', date)")
+  Datepicker.date(:value="value" format="yyyy-MM-dd")
 </template>
 
 <script>
@@ -13,18 +12,11 @@ export default {
   components: {
     Datepicker,
   },
-
-  data() {
-    return {
-      'date': this.value,
-    }
-  },
-
 }
 </script>
 
-<style lang="scss" scoped>
-input {
-  width: 8em;
+<style lang="scss">
+.date input {
+  width: 7em;
 }
 </style>

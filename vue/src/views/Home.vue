@@ -2,16 +2,18 @@
 .today
   h1 Today
   EventsToday
-
+  NewEvent
 </template>
 
 <script>
 import EventsToday from '@/components/EventsToday.vue'
+import NewEvent from '@/components/NewEvent.vue'
 
 export default {
   name: 'home',
   components: {
     EventsToday,
+    NewEvent,
   }
 }
 </script>
