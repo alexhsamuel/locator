@@ -21,9 +21,5 @@ export default {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-
-  h1 {
-    margin-top: 18px;
-  }
 }
 </style>

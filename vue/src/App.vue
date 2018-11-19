@@ -8,7 +8,7 @@
       router-link(to="/upcoming") Upcoming
       router-link(to="/about") About
 
-  .uk-container.uk-container-expand.uk-margin-top
+  .uk-container.uk-container-expand
     router-view
 </template>
 
@@ -29,6 +29,10 @@ html {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  .uk-container {
+    margin-top: 40px;
+  }
 }
 #nav {
   padding: 30px;
@@ -52,4 +56,5 @@ html {
     padding-top: 8px;
   }
 }
+
 </style>
