@@ -6,7 +6,7 @@
       span.logo Coordinates
       router-link(to="/") Home
       router-link(to="/upcoming") Upcoming
-      router-link(to="/about") About
+      //- router-link(to="/about") About
 
   .uk-container.uk-container-expand
     router-view
@@ -40,13 +40,13 @@ html {
   .logo {
     font-size: 160%;
     margin-right: 18px;
-    font-style: italic;
   }
   a {
-    font-weight: bold;
+    // font-weight: bold;
     color: #666;
     margin-left: 12px;
     margin-right: 12px;
+    text-transform: uppercase;
     &.router-link-exact-active {
       text-decoration: underline;
     }
