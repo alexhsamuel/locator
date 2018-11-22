@@ -10,10 +10,14 @@
   DateSelect(v-model="value.dates.end")
   label Notes
   input(v-model="value.notes")
+  .buttons
+    button(v-on:click="addEvent()") Add
+    button(v-on:click="$emit('cxl')") Cancel
+
 </template>
 
 <script>
-import { emptyEvent } from '@/api'
+import { emptyEvent, postEvent } from '@/api'
 import DateSelect from '@/components/DateSelect.vue'
 import StatusSelect from '@/components/StatusSelect.vue'
 import UserSelect from '@/components/UserSelect.vue'
@@ -31,6 +35,20 @@ export default {
     return {
       value: emptyEvent(),
     }
+  },
+
+  methods: {
+    addEvent() {
+      postEvent(this.value).then(event => {
+        this.$store.commit('addEvent', event)
+        this.$emit('ok', event)
+        console.log('before', this.value.user_id)
+        this.value = emptyEvent()
+        console.log('after', this.value.user_id)
+      })
+
+    },
+
   },
 }
 </script>
@@ -58,6 +76,11 @@ export default {
 
   .status {
     width: 8em;
+  }
+
+  .buttons {
+    grid-column-end: span 2;
+    margin-top: 32px;
   }
 }
 </style>
