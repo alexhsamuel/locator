@@ -17,6 +17,7 @@ export default {
 
 <style lang="scss">
 .date input {
-  width: 7em;
+  font-size: 100%;
+  width: 8em;
 }
 </style>

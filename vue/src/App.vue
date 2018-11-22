@@ -57,4 +57,9 @@ html {
   }
 }
 
+.uk-dropdown-nav {
+  font-size: 100%;
+  line-height: 1.75;
+}
+
 </style>

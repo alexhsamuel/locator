@@ -37,17 +37,17 @@ export default {
 <style lang="scss" scoped>
 span {
   display: inline-block;
+  width: 8em;
 }
 
 button {
   width: 100%;
   text-transform: none;
-}
-
-.uk-dropdown-nav {
-  cursor: default;
-  span {
-  }
+  text-align: left;
+  height: 40px;
+  padding: 4px 12px;
+  font-size: 100%;
+  line-height: 2.25;
 }
 
 </style>

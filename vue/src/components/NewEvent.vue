@@ -1,9 +1,9 @@
 <template lang="pug">
 .form
   label User
-  UserSelect(v-model="value.user_id")
+  UserSelect.user(v-model="value.user_id")
   label Status
-  StatusSelect(v-model="value.status")
+  StatusSelect.status(v-model="value.status")
   label Start Date
   DateSelect(v-model="value.dates.start")
   label End Date
@@ -38,11 +38,26 @@ export default {
 <style lang="scss" scoped>
 .form {
   display: grid;
-  grid-template-columns: 80px auto;
+  grid-template-columns: 8em auto;
   grid-template-rows: repeat(5, auto);
   border: 1px solid #ddd;
-  padding: 8px 16px;
+  padding: 16px 24px;
   margin: 12px 0;
 
+  > * {
+    margin: 8px 0;
+  }
+
+  label {
+    box-sizing: border-box;
+    font-size: 100%;
+    line-height: 2.25;
+    height: 40px;
+    padding: 4px 12px;
+  }
+
+  .status {
+    width: 8em;
+  }
 }
 </style>
