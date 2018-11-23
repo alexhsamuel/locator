@@ -10,8 +10,8 @@ tr
     DateSelect(v-model="value.dates.end")
   td.notes
     input(v-model="value.notes")
-    button(v-on:click="$emit('ok', value)") Add
-    button(v-on:click="$emit('cxl')") Cancel
+    button(v-on:click="$emit('ok', value)"): span(uk-icon="check") 
+    button(v-on:click="$emit('cxl')"): span(uk-icon="close") 
 
 </template>
 
@@ -72,6 +72,11 @@ td.notes {
   }
   button {
     flex-grow: 0;
+    height: 40px;
+    line-height: 1;
+    width: 40px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 </style>
