@@ -20,6 +20,7 @@ div
         td.start-date: .field {{ event.dates.start }}
         td.end-date: .field {{ event.dates.end }}
         td.notes: .field {{ event.notes }}
+      tr.spacer: td
 
       EventRowEdit(
         v-if="adding"
