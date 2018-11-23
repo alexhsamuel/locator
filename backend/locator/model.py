@@ -20,6 +20,25 @@ class Event(Base):
     status      = sa.Column(sa.String(),    nullable=False)
     notes       = sa.Column(sa.String(),    nullable=True)
 
+    def __repr__(self):
+        return (
+            self.__class__.__name__
+            + "("
+            + ", ".join( 
+                f"{n}={getattr(self, n)!r}" 
+                for n in (
+                    "event_id",
+                    "deleted",
+                    "user_id",
+                    "start_date",
+                    "end_date",
+                    "status",
+                    "notes",
+                )
+            )
+            + ")"
+        )
+
 
 
 #-------------------------------------------------------------------------------

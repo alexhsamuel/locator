@@ -1,5 +1,6 @@
 import datetime
 import flask
+import logging
 import sqlalchemy as sa
 
 from   .model import Event
@@ -183,6 +184,7 @@ def post_event():
         status      =validate_status(jso),
         notes       =validate_notes(jso),
     )
+    logging.info(f"new event: {event}")
     SESSION.add(event)
     SESSION.commit()
 

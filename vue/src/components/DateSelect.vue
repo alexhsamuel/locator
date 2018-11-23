@@ -1,6 +1,6 @@
 <template lang="pug">
 span.uk-inline
-  Datepicker.date(:value="value" format="yyyy-MM-dd")
+  Datepicker.date(v-model="date" v-on:input="$emit('input', date)" format="yyyy-MM-dd")
 </template>
 
 <script>
@@ -11,6 +11,12 @@ export default {
   props: ['value'],
   components: {
     Datepicker,
+  },
+
+  data() {
+    return {
+      date: this.value,
+    }
   },
 }
 </script>
