@@ -10,6 +10,7 @@ div
         th.notes: .field 
 
     tbody
+      tr.spacer: td
       tr(
           v-for="event in events" 
           :class='{ current: inRange($store.state.date, event.dates.start, event.dates.end) }'
@@ -89,8 +90,7 @@ export default {
   thead {
     border-bottom: 1px solid #666;
   }
-  tr {
-  }
+
   .field {
     padding: 2px 8px;
   }
@@ -105,6 +105,9 @@ export default {
   }
   td {
     vertical-align: top;
+  }
+  .spacer {
+    height: 8px;
   }
 
   .user {
