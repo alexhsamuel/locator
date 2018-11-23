@@ -8,7 +8,7 @@
       router-link(to="/upcoming") Upcoming
       //- router-link(to="/about") About
 
-  .uk-container.uk-container-expand
+  #content.uk-container.uk-container-expand
     router-view
 </template>
 
@@ -57,7 +57,12 @@ html {
   }
 }
 
+#content {
+  margin-bottom: 40px;
+}
+
 .uk-dropdown-nav {
+  cursor: default;
   font-size: 100%;
   line-height: 1.75;
 }

@@ -58,7 +58,7 @@ export default {
   margin: 12px 0;
 
   .title {
-    font-size: 180%;
+    font-size: 150%;
   }
 
   .dates {

@@ -43,7 +43,7 @@ export default {
         this.$store.commit('addEvent', event)
         this.$emit('ok', event)
         console.log('before', this.value.user_id)
-        this.value = emptyEvent()
+        this.$set(this, 'value', emptyEvent())
         console.log('after', this.value.user_id)
       })
 
@@ -81,6 +81,9 @@ export default {
   .buttons {
     grid-column-end: span 2;
     margin-top: 32px;
+    > * {
+      margin-right: 12px;
+    }
   }
 }
 </style>
