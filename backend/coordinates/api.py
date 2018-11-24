@@ -113,7 +113,7 @@ def look_up_event(event_id):
 # Flask loves globals.  I hate globals.
 SESSION = None
 
-API = flask.Blueprint("locator", __name__)
+API = flask.Blueprint("coordinates", __name__)
 
 @API.errorhandler(APIError)
 def handle_invalid_usage(exc):

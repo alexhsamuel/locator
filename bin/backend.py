@@ -5,9 +5,9 @@ import flask
 import logging
 import pathlib
 
-import locator.api
-import locator.config
-import locator.model
+import coordinates.api
+import coordinates.config
+import coordinates.model
 
 DEFAULT_PORT = 11619
 
@@ -20,7 +20,7 @@ logging.basicConfig(
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--database", metavar="PATH", default="./locator.db",
+    "--database", metavar="PATH", default="./coordinates.db",
     help="use database at PATH")
 parser.add_argument(
     "--debug", action="store_true", default=False,
@@ -38,13 +38,13 @@ args = parser.parse_args()
 
 logging.getLogger().setLevel(logging.INFO)
 
-app = flask.Flask("locator")
-app.config.update(locator.config.load_config(args.config_path))
-app.register_blueprint(locator.api.API, url_prefix="/api/v1")
+app = flask.Flask("coordinates")
+app.config.update(coordinates.config.load_config(args.config_path))
+app.register_blueprint(coordinates.api.API, url_prefix="/api/v1")
 
 # Set up the database session.
-session = locator.model.initialize_db(args.database)
-locator.api.SESSION = session
+session = coordinates.model.initialize_db(args.database)
+coordinates.api.SESSION = session
 
 # Close the session when we exit.
 @app.teardown_appcontext

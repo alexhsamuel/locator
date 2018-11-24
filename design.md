@@ -1,4 +1,4 @@
-## locator design
+## coordinates design
 
 ### main app
 ![main](imgs/main.png "main")
