@@ -37,6 +37,10 @@ const store = new Vuex.Store({
       state.events.push(event)
     },
 
+    deleteEvent(state, event_id) {
+      state.events = state.events.filter((e) => (e.event_id != event_id))
+    },
+
     refreshEvents(state, events) {
       state.events = events
     }

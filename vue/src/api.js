@@ -51,6 +51,13 @@ export async function postEvent(event) {
   })).event
 }
 
+export async function deleteEvent(event_id) {
+  await get('/events/' + event_id, {
+    method: 'DELETE',
+  })
+  return event_id
+}
+
 function today() {
   const now = new Date()
   return new Date(now.getFullYear(), now.getMonth(), now.getDate())

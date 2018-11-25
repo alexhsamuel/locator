@@ -19,7 +19,9 @@ div
         td.status: .field {{ event.status }}
         td.start-date: .field {{ event.dates.start }}
         td.end-date: .field {{ event.dates.end }}
-        td.notes: .field {{ event.notes }}
+        td.notes
+          span.field {{ event.notes }}
+          span.delete(style="float: right" v-on:click="onDelete(event)"): span(uk-icon="trash" ratio="0.8") 
       tr.spacer: td
 
       EventRowEdit(
@@ -27,7 +29,7 @@ div
         v-model="newEvent"
         v-on:cxl="adding = false"
         v-on:ok="addEvent($event)"
-        )
+      )
 
   button(v-if="!adding" v-on:click="onAdd()") Add
 
@@ -35,9 +37,10 @@ div
 
 <script>
 import { filter, sortBy } from 'lodash'
+import UIkit from 'uikit'
 
 import EventRowEdit from '@/components/EventRowEdit.vue'
-import { postEvent, emptyEvent } from '@/api'
+import { deleteEvent, emptyEvent, postEvent } from '@/api'
 import { inRange, overlap } from '@/date'
 
 export default {
@@ -69,6 +72,18 @@ export default {
     onAdd() {
       this.newEvent = emptyEvent()
       this.adding = true
+    },
+
+    onDelete(event) {
+      const msg = 'Delete ' + event.user_id + ' ' + event.status + '?'
+      UIkit.modal.confirm(msg).then(
+        () => {
+          deleteEvent(event.event_id).then(
+            (event_id) => {
+              this.$store.commit('deleteEvent', event_id)
+            }
+          ).catch((r) => { console.log('deleteEvent failed', r) })
+        })
     },
 
     addEvent(event) {
@@ -125,6 +140,13 @@ export default {
   }
   .current {
     color: #666;
+  }
+
+  .delete {
+    display: none;
+  }
+  tr:hover .delete {
+    display: block;
   }
 }
 </style>
