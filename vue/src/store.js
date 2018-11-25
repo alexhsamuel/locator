@@ -67,8 +67,9 @@ rollDate()
 // Load events, and reload periodically.
 const LOAD_PERIOD = 180
 function loadEvents() {
-  console.log('loading events')
-  searchEvents().then(events => { store.commit('refreshEvents', events) })
+  searchEvents()
+    .then(events => { store.commit('refreshEvents', events) })
+    .catch(exc => { console.log('searchEvents:', exc) })
   window.setTimeout(loadEvents, LOAD_PERIOD * 1000)
 }
 loadEvents()
