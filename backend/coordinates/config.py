@@ -13,36 +13,32 @@ SAMPLE_CFG = {
         "medical",
         "vacation",
         "personal",
-        "Greenwich",
         "NYC",
         "London",
+        "Tokyo",
     ],
 
     "users": {
-        "asamuel", 
-        "ebernste", 
-        "kmalyar",
-        "mlumelsk",
-        "mroiter", 
-        "ptj",
-        "scai", 
-        "slevin",
-        "sgorbey",
+        "alewis",
+        "bjones",
+        "ccohen",
+        "dlee",
+        "ekahn",
+        "fsmith",
+        "gchen",
+        "hjohnston",
+        "idavis",
+        "jgoldberg",
     },
 
     "groups": {
-        "ASD": {
-            "asamuel", 
-            "scai", 
-            "slevin",
-        },
         "Data": {
-            "ebernste", 
-            "kmalyar",
+            "alewis",
+            "bjones",
         },
         "IT": {
-            "mroiter", 
-            "mlumelsk",
+            "ccohen",
+            "dlee",
         },
     }
 }
