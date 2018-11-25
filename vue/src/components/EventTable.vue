@@ -21,7 +21,8 @@ div
         td.end-date: .field {{ event.dates.end }}
         td.notes
           span.field {{ event.notes }}
-          span.delete(style="float: right" v-on:click="onDelete(event)"): span(uk-icon="trash" ratio="0.8") 
+          span.delete(v-on:click="onDelete(event)")
+            span(uk-icon="trash" ratio="0.8") 
       tr.spacer: td
 
       EventRowEdit(
@@ -143,6 +144,7 @@ export default {
   }
 
   .delete {
+    float: right;
     display: none;
   }
   tr:hover .delete {
