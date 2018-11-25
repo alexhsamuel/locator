@@ -5,11 +5,13 @@ import flask
 import logging
 import pathlib
 
+import coordinates
 import coordinates.api
 import coordinates.config
 import coordinates.model
 
 DEFAULT_PORT = 11619
+DIST_DIR = pathlib.Path(coordinates.__file__).parents[2] / "vue" / "dist"
 
 #-------------------------------------------------------------------------------
 
@@ -39,6 +41,21 @@ args = parser.parse_args()
 logging.getLogger().setLevel(logging.INFO)
 
 app = flask.Flask("coordinates")
+
+# Serve the Vue UI.
+@app.route("/", methods={"GET"})
+def get_ui():
+    return flask.send_file(str(DIST_DIR / "index.html"))
+
+@app.route("/css/<path>")
+def get_css(path):
+    return flask.send_from_directory(str(DIST_DIR / "css"), path)
+
+@app.route("/js/<path>")
+def get_js(path):
+    return flask.send_from_directory(str(DIST_DIR / "js"), path)
+
+# Serve the REST API.
 app.config.update(coordinates.config.load_config(args.config_path))
 app.register_blueprint(coordinates.api.API, url_prefix="/api/v1")
 
