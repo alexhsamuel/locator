@@ -18,8 +18,6 @@ new Vue({
   render: h => h(App),
 
   created() {
-    console.log('created')
-
     // Load "constants" up front.
     getStatuses().then(statuses => { 
       this.$store.commit('setStatuses', statuses)
