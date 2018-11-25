@@ -141,6 +141,7 @@ export default {
   .delete {
     float: right;
     display: none;
+    color: #a03030;
   }
   tr:hover .delete {
     display: block;
