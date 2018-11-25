@@ -53,6 +53,7 @@ const store = new Vuex.Store({
 
 })
 
+// Initialize the date, and update at midnight.
 function rollDate() {
   const now = new Date()
   const today = date(now)
@@ -61,13 +62,15 @@ function rollDate() {
   const timeToMidnight = 86400000 - (now - today)
   window.setTimeout(rollDate, timeToMidnight)
 }
-
-// Initialize the date.
 rollDate()
 
-// Load events from the back end.
-searchEvents().then(events => { 
-  store.commit('refreshEvents', events)
-})
+// Load events, and reload periodically.
+const LOAD_PERIOD = 180
+function loadEvents() {
+  console.log('loading events')
+  searchEvents().then(events => { store.commit('refreshEvents', events) })
+  window.setTimeout(loadEvents, LOAD_PERIOD * 1000)
+}
+loadEvents()
 
 export default store
