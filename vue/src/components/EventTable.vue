@@ -75,16 +75,11 @@ export default {
       this.adding = true
     },
 
-    onDelete(event) {
+    async onDelete(event) {
       const msg = 'Delete ' + event.user_id + ' ' + event.status + '?'
-      UIkit.modal.confirm(msg).then(
-        () => {
-          deleteEvent(event.event_id).then(
-            (event_id) => {
-              this.$store.commit('deleteEvent', event_id)
-            }
-          ).catch((r) => { console.log('deleteEvent failed', r) })
-        })
+      await UIkit.modal.confirm(msg)
+      const event_id = await deleteEvent(event.event_id)
+      this.$store.commit('deleteEvent', event_id)
     },
 
     addEvent(event) {
