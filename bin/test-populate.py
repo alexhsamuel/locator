@@ -8,8 +8,8 @@ import requests
 
 DAY         = datetime.timedelta(1)
 
-START_DATE  = datetime.date(2018, 1, 1)
-END_DATE    = datetime.date(2019, 1, 1)
+START_DATE  = datetime.date(2018, 11, 1)
+END_DATE    = datetime.date(2019,  1, 1)
 MAX_LENGTH  = 14
 
 WORDS = [
