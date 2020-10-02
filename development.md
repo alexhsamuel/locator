@@ -19,7 +19,7 @@ auto reload.
 # React
 
 The [react-boilerplate](https://www.reactboilerplate.com/) project is in the
-`react/` subdirectory.
+`react-boilerplate/` subdirectory.
 
 To start the app:
 ```
@@ -27,3 +27,6 @@ cd react
 npm run start
 ```
 
+### Dependencies
+
+- [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch): `fetch()` for web requests
